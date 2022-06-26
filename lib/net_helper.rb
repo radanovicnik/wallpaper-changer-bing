@@ -1,4 +1,3 @@
-# Various functions
 module NetHelper
 
   # Send a GET request to URL and follow through redirections
