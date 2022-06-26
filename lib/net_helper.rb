@@ -5,7 +5,8 @@ module NetHelper
     limit = opts[:limit] || 10
 
     if limit.class != Integer || limit <= 0
-      raise ArgumentError.new('Redirects limit must be an integer greater than 0.')
+      LogHelper.add(LOGGER, :error) { "Redirects limit must be an integer greater than 0. Given limit: #{limit}" }
+      exit false
     end
 
     response = Net::HTTP.get_response(URI(url_str))
@@ -15,7 +16,7 @@ module NetHelper
       response
     when Net::HTTPRedirection then
       location = response['location']
-      warn "Redirected to #{location}"
+      LogHelper.add(LOGGER, :warn) { "Redirected to #{location}" }
       get_with_redirect(location, :limit => limit - 1)
     else
       response.value

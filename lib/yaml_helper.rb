@@ -6,7 +6,9 @@ module YamlHelper
     begin
       config = YAML.load_file 'config/default.yml'
     rescue StandardError => e
-      STDERR.puts "Default configuration file missing (config/default.yml)!\n#{e.full_message}"
+      LogHelper.add(LOGGER, :error) do
+        "Default configuration file missing (config/default.yml)! Exception: #{e.message}"
+      end
       exit false
     end
     
@@ -14,7 +16,9 @@ module YamlHelper
       begin
         config.deep_merge!(YAML.load_file('config/custom.yml'))
       rescue StandardError => e
-        STDERR.puts 'Unable to read custom config file (config/custom.yml).'
+        LogHelper.add(LOGGER, :warn) do
+          'Unable to read custom config file (config/custom.yml).'
+        end
       end
     end
 
@@ -27,7 +31,9 @@ module YamlHelper
     begin
       recents = YAML.load_file('recent.yml')
     rescue StandardError => e
-      puts 'No data about recent launches. Starting to record from now.'
+      LogHelper.add(LOGGER, :info) do
+        'No data about recent launches. Starting to record from now.'
+      end
     end
     recents = {} unless recents.class == Hash
     recents[:history] = [] if recents[:history].nil?

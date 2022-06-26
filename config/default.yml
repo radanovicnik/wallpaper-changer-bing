@@ -4,3 +4,13 @@
 # How many days to wait before updating the wallpaper
 # (can be 1 or more)
 :delay_in_days: 1
+
+:log:
+  # path to log file
+  :path: 'logs/output.log'
+  # how many last files to keep
+  :files_count: 3
+  # max file size in bytes
+  :file_size: 1048576  # =1MB
+  # enable logging to stdout?
+  :enable_stdout: true
