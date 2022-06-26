@@ -1,0 +1,6 @@
+# Path to the directory for storing wallpapers
+:wallpaper_dir: 'wallpapers'
+
+# How many days to wait before updating the wallpaper
+# (can be 1 or more)
+:delay_in_days: 1

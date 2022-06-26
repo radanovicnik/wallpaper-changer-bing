@@ -1,0 +1,8 @@
+# directories
+/wallpapers/
+/tmp/
+
+# files
+/Gemfile.lock
+/recent.yml
+/config/custom.yml
