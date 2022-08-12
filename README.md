@@ -5,6 +5,15 @@
 Download a new Bing wallpaper for the day and set it as your desktop background.
 
 
+### Usage
+
+1. Download or clone this repository
+2. Open the program directory in terminal and run `bundle install` to get all the dependencies.
+3. Run `ruby wallpaper_changer_bing.rb` to update your wallpaper. You can run it manually, or use GNOME's Startup Applications to make it run every time you turn on your computer.
+
+**Note:** You should have Ruby installed on your system. If it's not already, follow the instructions given [here](https://www.ruby-lang.org/en/documentation/installation/) to install it.
+
+
 ### Settings
 
 Write a YAML config file (`config/custom.yml`) to set:
