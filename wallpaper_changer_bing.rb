@@ -18,19 +18,18 @@ Dir.chdir(File.dirname(symlinked))
 
 
 CONFIG = YamlHelper.load_config
-recents = YamlHelper.load_recents
-
 
 ['logs', CONFIG[:wallpaper_dir]].each do |dir|
   FileUtils.mkdir_p(dir) unless Dir.exist?(dir)
 end
-
 
 LOGGER = Logger.new(
   CONFIG[:log][:path],
   CONFIG[:log][:files_count],
   CONFIG[:log][:file_size]
 )
+
+recents = YamlHelper.load_recents
 
 
 puts "\n### Wallpaper downloader - Bing\n\n"
@@ -92,6 +91,7 @@ NetHelper.download_file("http://www.bing.com/#{pic_url}", pic_file_path)
 
 # Set the background!
 system("gsettings set org.gnome.desktop.background picture-uri file:///#{pic_file_path}")
+system("gsettings set org.gnome.desktop.background picture-uri-dark file:///#{pic_file_path}")
 
 
 LogHelper.add(LOGGER, :info) do

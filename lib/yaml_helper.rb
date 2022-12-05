@@ -6,9 +6,7 @@ module YamlHelper
     begin
       config = YAML.load_file 'config/default.yml'
     rescue StandardError => e
-      LogHelper.add(LOGGER, :error) do
-        "Default configuration file missing (config/default.yml)! Exception: #{e.message}"
-      end
+      STDERR.puts "Default configuration file missing (config/default.yml)! Exception: #{e.message}"
       exit false
     end
     
@@ -16,9 +14,7 @@ module YamlHelper
       begin
         config.deep_merge!(YAML.load_file('config/custom.yml'))
       rescue StandardError => e
-        LogHelper.add(LOGGER, :warn) do
-          'Unable to read custom config file (config/custom.yml).'
-        end
+        puts 'Skipped reading custom config file (config/custom.yml).'
       end
     end
 
