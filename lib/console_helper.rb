@@ -42,9 +42,9 @@ module ConsoleHelper
               opts[opt][:start] = Date.strptime($1, '%d.%m.%Y')
               opts[opt][:end] = Date.strptime($2, '%d.%m.%Y')
             when /^(\d{8})$/
-              opts[opt][:start] = Date.strptime($1, '%Y%m%d')
+              opts[opt][:value] = Date.strptime($1, '%Y%m%d')
             when /^(\d{2}\.\d{2}.\d{4})$/
-              opts[opt][:start] = Date.strptime($1, '%d.%m.%Y')
+              opts[opt][:value] = Date.strptime($1, '%d.%m.%Y')
             else
               raise ArgumentError.new('Wrong argument for date.')
             end
@@ -65,6 +65,12 @@ module ConsoleHelper
 
     # Apply each option
 
+    unless opts[:date][:value].nil?
+      history.filter! do |record|
+        opts[:date][:value] == Date.strptime(record[:start_date], '%Y%m%d')
+      end
+    end
+
     unless opts[:date][:start].nil?
       history.filter! do |record|
         opts[:date][:start] <= Date.strptime(record[:start_date], '%Y%m%d')
@@ -83,6 +89,10 @@ module ConsoleHelper
           record[key].downcase.include? opts[:word][:value]
         end
       end
+    end
+
+    if opts.keys.all? { |o| %i(value start end).all?{|v| opts[o][v].nil?} }
+      opts[:count][:value] = 1
     end
   
     history = history.last(opts[:count][:value]) unless opts[:count][:value].nil?
@@ -110,11 +120,12 @@ module ConsoleHelper
             -d DATE_START-DATE_END - get only the records which were valid from DATE_START 
                 and to DATE_END. Dates are given in one of these formats: 
                 YYYYMMDD or DD.MM.YYYY (both dates have to be in the same format) 
+                If only one DATE is given, get only the records valid on that date.
             -w SEARCH_WORD - get only the records containing this SEARCH_WORD (letter case 
                 isn't important). If SEARCH_WORD consists of multiple actual words (example: 
                 "azure coast") they must be written between paranthesis.
           
-          If none of the options are given, "recent" will print all records!
+          If none of the options are given, "recent" will print the last record!
 
         help - show this help message
 
