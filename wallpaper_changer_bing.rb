@@ -30,10 +30,24 @@ LOGGER = Logger.new(
 )
 
 recents = YamlHelper.load_recents
+recents[:history].uniq! { |x| [x[:start_date], x[:end_date], x[:file_name]] }
 
 
-puts "\n### Wallpaper downloader - Bing\n\n"
+# Handle additional arguments
+case ARGV.shift
+when 'recent'
+  ConsoleHelper.print_recents(recents[:history].clone, ARGV.clone)
+  exit true
+when 'help'
+  ConsoleHelper.print_title
+  ConsoleHelper.print_help
+  exit true
+end
 
+
+# Normal use - wallpaper downloading
+
+ConsoleHelper.print_title
 
 # Check if enough time has passed since the last change
 if recents[:last_time].class == Integer &&
@@ -97,6 +111,10 @@ system("gsettings set org.gnome.desktop.background picture-uri-dark file:///#{pi
 LogHelper.add(LOGGER, :info) do
   "New wallpaper downloaded and set. Name: #{pic_name}.#{pic_ext}; Copyright: #{pic_copyright}"
 end
+
+
+recents[:history] = recents[:history].sort { |x, y| x[:start_date] <=> y[:start_date] }
+    .uniq { |x| [x[:start_date], x[:end_date], x[:file_name]] }
 
 recents[:last_time] = time_now.to_i
 File.write('recent.yml', recents.to_yaml)
