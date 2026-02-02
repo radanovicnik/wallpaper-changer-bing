@@ -28,5 +28,5 @@ As a reference, use `config/default.yml`, where all the possible settings are sh
 **Example:** Running once every two hours with logging
 
 ```cron
-0 */2 * * * $HOME/bin/wallpaper-changer-bing 2>&1 | logger -t nikola_wallpaper_changer
+0 */2 * * * $HOME/bin/wallpaper-changer-bing 2>&1 | logger -t my_wallpaper_changer
 ```
