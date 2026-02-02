@@ -22,3 +22,11 @@ Write a YAML config file (`config/custom.yml`) to set:
 - whether to log program actions and in which file (`:log`)
 
 As a reference, use `config/default.yml`, where all the possible settings are shown.
+
+**Note:** Setting the program to run periodically (with cron) could be a good idea.
+
+**Example:** Running once every two hours with logging
+
+```cron
+0 */2 * * * $HOME/bin/wallpaper-changer-bing 2>&1 | logger -t nikola_wallpaper_changer
+```

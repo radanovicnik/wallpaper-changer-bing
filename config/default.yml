@@ -1,8 +1,9 @@
 # Path to the directory for storing wallpapers
+# (can be relative or absolute, e.g. "/home/user/Pictures/my-wallpapers")
 :wallpaper_dir: 'wallpapers'
 
 # How many days to wait before updating the wallpaper
-# (can be 1 or more)
+# (can be 0 or more)
 :delay_in_days: 1
 
 :log:
